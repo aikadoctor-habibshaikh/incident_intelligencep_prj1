@@ -1,0 +1,22 @@
+log_analysis_task:
+  description: >
+    Read Dynatrace logs from `input/dynatrace_logs/` (JSONL/NDJSON or CSV), parse
+    the events, identify incidents, anomalies, and error clusters, and output a
+    structured JSON analysis that downstream agents can consume.
+  expected_output: >
+    A JSON object matching the schema: `incident_id`, `summary`,
+    `anomaly_findings`, `error_patterns`, `affected_services`,
+    `candidate_root_cause_hypotheses`, `raw_log_references` (optional).
+  agent: log_analysis_agent
+  output_file: output/log_analysis.json
+
+root_cause_analysis_task:
+  description: >
+    Consume the structured output produced by the Log Analysis Agent and produce
+    a prioritized root cause analysis with remediation recommendations. Save
+    final artifacts under `output/`.
+  expected_output: >
+    JSON or Markdown with: `incident_id`, `root_cause`, `confidence`, `impact`,
+    `remediation_recommendations`, `next_steps`, `affected_components`.
+  agent: root_cause_analysis_agent
+  output_file: output/root_cause_analysis.json
