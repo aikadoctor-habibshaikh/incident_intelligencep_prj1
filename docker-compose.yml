@@ -13,6 +13,9 @@ services:
     environment:
       PYTHONUNBUFFERED: "1"
       TASK_NAME: full
+      MODEL: ${MODEL:-gpt-4o-mini}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_API_BASE: ${OPENAI_API_BASE:-https://api.openai.com/v1}
     command: ["python", "-m", "incident_intelligencep_prj1.main", "--task", "full"]
 
   log-analysis-agent:
@@ -29,6 +32,9 @@ services:
     environment:
       PYTHONUNBUFFERED: "1"
       TASK_NAME: log_analysis
+      MODEL: ${MODEL:-gpt-4o-mini}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_API_BASE: ${OPENAI_API_BASE:-https://api.openai.com/v1}
     command: ["python", "-m", "incident_intelligencep_prj1.main", "--task", "log_analysis"]
 
   root-cause-agent:
@@ -45,4 +51,7 @@ services:
     environment:
       PYTHONUNBUFFERED: "1"
       TASK_NAME: root_cause
+      MODEL: ${MODEL:-gpt-4o-mini}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_API_BASE: ${OPENAI_API_BASE:-https://api.openai.com/v1}
     command: ["python", "-m", "incident_intelligencep_prj1.main", "--task", "root_cause"]

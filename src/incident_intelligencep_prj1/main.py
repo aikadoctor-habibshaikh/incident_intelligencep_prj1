@@ -37,6 +37,8 @@ def run(task_name: str | None = None):
     output_dir.mkdir(parents=True, exist_ok=True)
 
     api_key = os.getenv('OPENAI_API_KEY') or os.getenv('OPENAI_KEY')
+    model = os.getenv('MODEL', 'gpt-4o-mini')
+    api_base = os.getenv('OPENAI_API_BASE')
     if not api_key:
         print('No OpenAI API key detected. Running local fallback analysis from input logs.')
         log_analysis = analyze_logs_with_fallback(input_dir, output_dir)
@@ -51,6 +53,8 @@ def run(task_name: str | None = None):
         'current_year': str(datetime.now().year),
         'log_input_path': str(input_dir),
         'output_path': str(output_dir),
+        'model': model,
+        'api_base': api_base,
     }
 
     try:
