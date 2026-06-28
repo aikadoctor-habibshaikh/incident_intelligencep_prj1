@@ -1,0 +1,61 @@
+{
+  "incident_id": "INC-20231001-001",
+  "summary": "Increased response time detected for the User Service API leading to degradation of service performance.",
+  "anomaly_findings": [
+    {
+      "timestamp": "2023-10-01T12:00:00Z",
+      "response_time": 350,
+      "threshold": 200,
+      "description": "Response time exceeded the acceptable threshold."
+    },
+    {
+      "timestamp": "2023-10-01T12:05:00Z",
+      "error_rate": 5,
+      "threshold": 2,
+      "description": "Error rate for the service exceeded acceptable levels."
+    }
+  ],
+  "error_patterns": [
+    {
+      "error_code": "500",
+      "frequency": 15,
+      "description": "Internal Server Error during API calls.",
+      "related_endpoints": [
+        "/api/user/login",
+        "/api/user/profile"
+      ]
+    },
+    {
+      "error_code": "404",
+      "frequency": 8,
+      "description": "Resource not found for user profile fetch.",
+      "related_endpoints": [
+        "/api/user/details"
+      ]
+    }
+  ],
+  "affected_services": [
+    {
+      "service_name": "User Service",
+      "impacted_percentage": 75
+    },
+    {
+      "service_name": "Authentication Service",
+      "impacted_percentage": 40
+    }
+  ],
+  "candidate_root_cause_hypotheses": [
+    "Recent deployment introduced a bug causing server instability.",
+    "Database connectivity issues leading to timeouts and service degradation.",
+    "Increased traffic without proportional scaling of resources."
+  ],
+  "raw_log_references": [
+    {
+      "log_file": "application.log",
+      "lines": [
+        "2023-10-01 12:00:00 ERROR User Service - Internal Server Error: Unable to process request.",
+        "2023-10-01 12:05:00 WARN User Service - Response time exceeded 350ms."
+      ]
+    }
+  ]
+}

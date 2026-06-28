@@ -1,0 +1,48 @@
+services:
+  incident-intelligence:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: incident-intelligence
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./knowledge:/app/knowledge
+    env_file:
+      - .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      TASK_NAME: full
+    command: ["python", "-m", "incident_intelligencep_prj1.main", "--task", "full"]
+
+  log-analysis-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: log-analysis-agent
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./knowledge:/app/knowledge
+    env_file:
+      - .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      TASK_NAME: log_analysis
+    command: ["python", "-m", "incident_intelligencep_prj1.main", "--task", "log_analysis"]
+
+  root-cause-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: root-cause-agent
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./knowledge:/app/knowledge
+    env_file:
+      - .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      TASK_NAME: root_cause
+    command: ["python", "-m", "incident_intelligencep_prj1.main", "--task", "root_cause"]

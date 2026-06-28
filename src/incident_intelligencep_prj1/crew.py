@@ -50,22 +50,29 @@ class IncidentIntelligencePrj1():
             output_file='output/root_cause_analysis.json'
         )
 
-    @crew
-    def crew(self) -> Crew:
-        """Creates the Incident Intelligence PRJ1 crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
+    def build_crew(self, task_name: str | None = None) -> Crew:
+        """Creates the Incident Intelligence PRJ1 crew for the requested workflow step."""
+        agents = [self.log_analysis_agent(), self.root_cause_analysis_agent()]
 
-        # Explicit task ordering: run log analysis first, then root cause analysis.
-        ordered_tasks = [
-            self.log_analysis_task(),
-            self.root_cause_analysis_task(),
-        ]
+        if task_name == 'log_analysis':
+            ordered_tasks = [self.log_analysis_task()]
+        elif task_name == 'root_cause':
+            ordered_tasks = [self.root_cause_analysis_task()]
+        else:
+            ordered_tasks = [
+                self.log_analysis_task(),
+                self.root_cause_analysis_task(),
+            ]
 
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
+            agents=agents,
             tasks=ordered_tasks,
             process=Process.sequential,
             verbose=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
+
+    @crew
+    def crew(self) -> Crew:
+        """Creates the Incident Intelligence PRJ1 crew"""
+        return self.build_crew()
