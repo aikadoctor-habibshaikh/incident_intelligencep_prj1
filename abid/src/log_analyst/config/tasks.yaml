@@ -1,0 +1,25 @@
+log_analyser_task:
+  description: >
+    Conduct a thorough research about {assignment}
+    Make sure you find any interesting and relevant errors in log files and patterns that can be used to generate a report.
+    Simply identify suspicious error stacktraces, repeating patterns, warn/error codes, and exception classes. "
+    Also, Summarize the key error messages.
+  expected_output: >
+    A summary of log findings, including exception details, error logs, and suspicious patterns.
+  agent:  log_analyser
+  output_format: >
+    The output should be in text format, providing a clear and concise summary of the log analysis findings.
+  output_example: >
+    Log Analysis Summary:
+    - Exception Details: [Provide details of any exceptions found]
+    - Error Logs: [List of error logs identified]
+    - Suspicious Patterns: [Highlight any repeating patterns or anomalies]
+    - Key Error Messages: [Summarize the most critical error messages]
+  output_constraints: >
+    Ensure that the output is well-structured, easy to read, and free from unnecessary technical jargon.
+    Focus on providing actionable insights and recommendations based on the log analysis findings.
+  output_length: >
+    The output should be concise, ideally within 200-300 words, while still providing a comprehensive overview of the log analysis results.
+  output_filename: "log_report.txt"
+
+
