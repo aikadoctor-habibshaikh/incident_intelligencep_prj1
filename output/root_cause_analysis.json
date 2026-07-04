@@ -1,22 +1,33 @@
 ```json
 {
-  "incident_id": "INC-20231001-001",
-  "root_cause": "Recent deployment introduced a bug causing server instability.",
-  "confidence": 0.8,
-  "impact": "75% degradation in User Service and 40% degradation in Authentication Service, affecting user experience and system reliability.",
+  "incident_id": "INC-2023-001",
+  "root_cause": {
+    "primary": "Recent deployment of version 2.3 introduced performance regressions.",
+    "secondary": "Unexpected traffic surge causing resource exhaustion on the application server."
+  },
+  "confidence": {
+    "level": "high",
+    "justification": "Clear correlation between deployment and observed performance degradation; evidence includes increased response times and error rates."
+  },
+  "impact": {
+    "severity": "critical",
+    "description": "Service disruptions affecting key APIs led to degraded user experience, potential revenue loss, and increased support requests."
+  },
   "remediation_recommendations": [
-    "Rollback the recent deployment to restore previous stable version.",
-    "Increase monitoring on API response times and error rates for immediate feedback.",
-    "Conduct a thorough review of deployment changes, focusing on code quality and server configurations."
+    "Rollback to the previous stable version 2.2 until performance issues are resolved.",
+    "Increase resource allocation for affected services to handle the unexpected traffic.",
+    "Mitigate the database connectivity issues by optimizing connection pooling."
   ],
   "next_steps": [
-    "Initiate rollback process for the deployment.",
-    "Monitor system performance post-rollback to evaluate improvement.",
-    "Communicate with stakeholders regarding current status and estimated recovery time."
+    "Implement rollback procedure for the deployment of version 2.3.",
+    "Monitor performance and traffic patterns closely after rollback.",
+    "Conduct a post-incident review to analyze the deployment process and scale resources based on anticipated load."
   ],
   "affected_components": [
-    "User Service",
-    "Authentication Service"
+    "user-service",
+    "order-service",
+    "payment-gateway",
+    "node-web-service"
   ]
 }
 ```

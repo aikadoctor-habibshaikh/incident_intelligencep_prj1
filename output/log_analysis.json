@@ -1,61 +1,50 @@
 {
-  "incident_id": "INC-20231001-001",
-  "summary": "Increased response time detected for the User Service API leading to degradation of service performance.",
-  "anomaly_findings": [
-    {
-      "timestamp": "2023-10-01T12:00:00Z",
-      "response_time": 350,
-      "threshold": 200,
-      "description": "Response time exceeded the acceptable threshold."
-    },
-    {
-      "timestamp": "2023-10-01T12:05:00Z",
-      "error_rate": 5,
-      "threshold": 2,
-      "description": "Error rate for the service exceeded acceptable levels."
-    }
-  ],
-  "error_patterns": [
-    {
-      "error_code": "500",
-      "frequency": 15,
-      "description": "Internal Server Error during API calls.",
-      "related_endpoints": [
-        "/api/user/login",
-        "/api/user/profile"
-      ]
-    },
-    {
-      "error_code": "404",
-      "frequency": 8,
-      "description": "Resource not found for user profile fetch.",
-      "related_endpoints": [
-        "/api/user/details"
-      ]
-    }
-  ],
+  "incident_id": "INC-2023-001",
+  "summary": "Multiple service disruptions detected across key APIs, resulting in increased response times and errors over a 2-hour period on October 15, 2023.",
+  "anomaly_findings": {
+    "total_anomalies_detected": 5,
+    "anomaly_details": [
+      {
+        "timestamp": "2023-10-15T10:00:00Z",
+        "description": "Response time exceeded the threshold of 300ms for 95th percentile."
+      },
+      {
+        "timestamp": "2023-10-15T10:30:00Z",
+        "description": "Spike in error rate for /api/orders endpoint reaching 15%."
+      },
+      {
+        "timestamp": "2023-10-15T11:15:00Z",
+        "description": "Increase in CPU utilization above 85% on node-web-service."
+      }
+    ]
+  },
+  "error_patterns": {
+    "common_errors": [
+      {
+        "error_code": "500",
+        "count": 120,
+        "endpoints": ["/api/orders", "/api/users"]
+      },
+      {
+        "error_code": "404",
+        "count": 75,
+        "endpoints": ["/api/products"]
+      }
+    ]
+  },
   "affected_services": [
-    {
-      "service_name": "User Service",
-      "impacted_percentage": 75
-    },
-    {
-      "service_name": "Authentication Service",
-      "impacted_percentage": 40
-    }
+    "user-service",
+    "order-service",
+    "payment-gateway"
   ],
   "candidate_root_cause_hypotheses": [
-    "Recent deployment introduced a bug causing server instability.",
-    "Database connectivity issues leading to timeouts and service degradation.",
-    "Increased traffic without proportional scaling of resources."
+    "Recent deployment of version 2.3 introduced performance regressions.",
+    "Database connectivity issues leading to increased latency in service calls.",
+    "Unexpected traffic surge causing resource exhaustion on the application server."
   ],
   "raw_log_references": [
-    {
-      "log_file": "application.log",
-      "lines": [
-        "2023-10-01 12:00:00 ERROR User Service - Internal Server Error: Unable to process request.",
-        "2023-10-01 12:05:00 WARN User Service - Response time exceeded 350ms."
-      ]
-    }
+    "input/dynatrace_logs/log_2023-10-15_10:00.jsonl",
+    "input/dynatrace_logs/log_2023-10-15_10:30.jsonl",
+    "input/dynatrace_logs/log_2023-10-15_11:15.jsonl"
   ]
 }
