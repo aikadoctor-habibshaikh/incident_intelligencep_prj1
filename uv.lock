@@ -1012,17 +1012,6 @@ wheels = [
 ]
 
 [[package]]
-name = "icidentassistanctproject"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "crewai", extra = ["tools"] },
-]
-
-[package.metadata]
-requires-dist = [{ name = "crewai", extras = ["tools"], specifier = ">=0.130.0,<1.0.0" }]
-
-[[package]]
 name = "idna"
 version = "3.18"
 source = { registry = "https://pypi.org/simple" }
@@ -1051,6 +1040,17 @@ sdist = { url = "https://files.pythonhosted.org/packages/e4/06/b56dfa750b44e8615
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8a/db/55a262f3606bebcae07cc14095338471ad7c0bbcaa37707e6f0ee49725b7/importlib_resources-7.1.0-py3-none-any.whl", hash = "sha256:1bd7b48b4088eddb2cd16382150bb515af0bd2c70128194392725f82ad2c96a1", size = 37232, upload-time = "2026-04-12T16:36:08.219Z" },
 ]
+
+[[package]]
+name = "incident-intelligencep-prj1"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "crewai", extra = ["tools"] },
+]
+
+[package.metadata]
+requires-dist = [{ name = "crewai", extras = ["tools"], specifier = ">=0.130.0,<1.0.0" }]
 
 [[package]]
 name = "instructor"

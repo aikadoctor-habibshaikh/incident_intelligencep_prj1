@@ -25,8 +25,6 @@ def run():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year),
         'log_input_path': str(input_dir),
         'output_path': str(output_dir),
     }
@@ -42,8 +40,7 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
+
     }
     try:
         IncidentIntelligencePrj1().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
@@ -66,8 +63,7 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+
     }
     
     try:

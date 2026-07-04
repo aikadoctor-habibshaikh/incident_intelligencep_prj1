@@ -1,0 +1,44 @@
+{
+  "incident_id": "INC-20231023-001",
+  "summary": "Unusual spike in error rates and response times observed across various services. The incident primarily affected the user authentication and payment processing microservices.",
+  "anomaly_findings": [
+    {
+      "timestamp": "2023-10-23T14:35:00Z",
+      "error_rate": 0.15,
+      "normal_threshold": 0.02,
+      "description": "Error rate for authentication service exceeded normal threshold."
+    },
+    {
+      "timestamp": "2023-10-23T14:35:30Z",
+      "response_time_avg": 1200,
+      "normal_threshold": 350,
+      "description": "Average response time for payment processing service significantly increased."
+    }
+  ],
+  "error_patterns": [
+    {
+      "error_code": "500",
+      "occurrences": 45,
+      "description": "Internal Server Error in authentication service."
+    },
+    {
+      "error_code": "503",
+      "occurrences": 30,
+      "description": "Service Unavailable error for payment processing service."
+    }
+  ],
+  "affected_services": [
+    "User Authentication Service",
+    "Payment Processing Service"
+  ],
+  "candidate_root_cause_hypotheses": [
+    "Database timeout leading to 500 Internal Server Errors.",
+    "Increased load on services due to promotional activity causing 503 errors."
+  ],
+  "raw_log_references": [
+    {
+      "log_file": "dynatrace_log_20231023.log",
+      "line_numbers": [102, 115, 220, 342]
+    }
+  ]
+}
