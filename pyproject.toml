@@ -8,6 +8,11 @@ dependencies = [
     "crewai[tools]>=0.130.0,<1.0.0"
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0"
+]
+
 [project.scripts]
 incident-intelligencep-prj1 = "incident_intelligencep_prj1.main:run"
 run_crew = "incident_intelligencep_prj1.main:run"
