@@ -53,6 +53,8 @@ Add these secrets:
 
 Do not add username/password credentials for Amazon ECR. The workflow authenticates to ECR through AWS IAM and OIDC using the role in `AWS_ROLE_TO_ASSUME`.
 
+For `AWS_ECS_SERVICE`, use the exact name of the ECS service you create in the cluster. You can find it in the Amazon ECS console under the cluster -> Services tab.
+
 ## 4. Set Up AWS Resources on the Console
 
 ### 4.1 Create an ECR repository
@@ -153,25 +155,65 @@ Note: Amazon ECR does not support private repository credentials as a GitHub Act
 6. Configure the listener to forward HTTP (port `80`) to the target group.
 7. After the ALB is active, note the DNS name and use it as the public endpoint.
 
-### 4.4 Create an IAM role for GitHub Actions
-Create an IAM role that GitHub Actions can assume using OIDC.
+### 4.4 Create the GitHub Actions IAM role (OIDC)
+Create a role that GitHub Actions can assume through OpenID Connect.
 
-Required permissions:
-- AmazonECR: `GetAuthorizationToken`
-- AmazonECR: `BatchCheckLayerAvailability`
-- AmazonECR: `PutImage`
-- AmazonECS: `DescribeServices`
-- AmazonECS: `UpdateService`
-- AmazonECS: `RegisterTaskDefinition`
-- AmazonECS: `DescribeTaskDefinition`
+1. Open the AWS Console and go to IAM.
+2. Click Roles -> Create role.
+3. Choose Trusted entity type: Web identity.
+4. Select the GitHub Actions OIDC provider, usually `token.actions.githubusercontent.com`.
+5. For Audience, choose `sts.amazonaws.com`.
+6. In the Subject field, enter your repository in this format:
+   - `repo:YOUR_GITHUB_USERNAME/incident_intelligencep_prj1:ref:refs/heads/main`
+7. Click Next.
+8. Give the role a name such as `github-actions-incident-intelligence-role`.
+   Suggested role name: `github-actions-incident-intelligence-role`
+9. Attach permissions for ECR and ECS. A simple approach is to attach:
+   - `AmazonEC2ContainerRegistryPowerUser`
+   - `AmazonECS_FullAccess`
+10. If you prefer a narrower policy, use an inline policy with these actions:
+    - `ecr:GetAuthorizationToken`
+    - `ecr:BatchCheckLayerAvailability`
+    - `ecr:CompleteLayerUpload`
+    - `ecr:InitiateLayerUpload`
+    - `ecr:PutImage`
+    - `ecr:UploadLayerPart`
+    - `ecs:DescribeServices`
+    - `ecs:DescribeTaskDefinition`
+    - `ecs:RegisterTaskDefinition`
+    - `ecs:UpdateService`
+    - `ecs:DescribeClusters`
+    - `iam:PassRole`
+11. Click Create role.
+12. Open the new role and copy the Role ARN.
+13. Save that ARN in GitHub as the secret `AWS_ROLE_TO_ASSUME`.
 
-### 4.5 Create or update a task execution role
-This role must allow ECS to pull images and write logs.
+### 4.5 Create the ECS task execution role
+This role is used by ECS when launching the container. It must be able to pull the image from ECR and send logs to CloudWatch.
 
-Attach policies such as:
-- AmazonECSTaskExecutionRolePolicy
+1. Open IAM -> Roles -> Create role.
+2. Choose AWS service -> Elastic Container Service.
+3. Choose the use case: `Elastic Container Service Task`.
+4. Name the role, for example: `ecsTaskExecutionRole-incident-intelligence`.
+   Suggested role name: `ecsTaskExecutionRole-incident-intelligence`
+5. Click Create role.
+6. Attach the managed policy `AmazonECSTaskExecutionRolePolicy`.
+7. Confirm the role ARN and copy it into GitHub as `AWS_ECS_EXECUTION_ROLE_ARN`.
 
-### 4.6 Create a secret in AWS Secrets Manager (optional)
+### 4.6 Create the ECS task role (optional but recommended)
+This role is used by the container itself if the application needs to call AWS services such as S3, Secrets Manager, or DynamoDB.
+
+1. Open IAM -> Roles -> Create role.
+2. Choose AWS service -> Elastic Container Service.
+3. Choose the use case: `Elastic Container Service Task`.
+4. Name the role, for example: `ecsTaskRole-incident-intelligence`.
+   Suggested role name: `ecsTaskRole-incident-intelligence`
+5. Attach only the policies your application needs.
+6. Copy the role ARN into GitHub as `AWS_ECS_TASK_ROLE_ARN`.
+
+If your application does not call AWS APIs, you can use the same ARN as the execution role for this project.
+
+### 4.7 Create a secret in AWS Secrets Manager (optional)
 If the app needs runtime secrets such as `OPENAI_API_KEY`, store them in AWS Secrets Manager and reference the ARN in the workflow and task definition.
 
 ## 5. Configure the GitHub Actions Workflow
