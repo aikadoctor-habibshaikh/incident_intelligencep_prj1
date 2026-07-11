@@ -1,11 +1,13 @@
 [project]
 name = "incident-intelligencep-prj1"
-version = "0.1.0"
-description = "Incident Intelligence PRJ1 using crewAI"
-authors = [{ name = "Your Name", email = "you@example.com" }]
+version = "0.2.0"
+description = "Enterprise incident intelligence platform powered by CrewAI"
+authors = [{ name = "Habib Shaikh", email = "aikadoctor-habibshaikh@users.noreply.github.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
-    "crewai[tools]>=0.130.0,<1.0.0"
+    "crewai[tools]>=0.130.0,<1.0.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.scripts]
@@ -21,3 +23,6 @@ build-backend = "hatchling.build"
 
 [tool.crewai]
 type = "crew"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/incident_intelligencep_prj1"]

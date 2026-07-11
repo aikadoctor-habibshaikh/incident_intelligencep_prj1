@@ -1,22 +1,82 @@
+triage_task:
+  description: >
+    Perform initial triage for incident {incident_id} using logs from {log_input_path}.
+    Incident context: {incident_description}
+    Affected service: {affected_service}
+    Classify severity, identify blast radius, build an initial timeline, and define
+    which specialist analyses should run next.
+  expected_output: >
+    JSON with incident_id, severity, incident_title, affected_services, blast_radius,
+    initial_timeline, recommended_analysis_areas, triage_summary.
+  agent: incident_triage_agent
+  output_file: output/triage.json
+
 log_analysis_task:
   description: >
-    Read Dynatrace logs from `input/dynatrace_logs/` (JSONL/NDJSON or CSV), parse
-    the events, identify incidents, anomalies, and error clusters, and output a
-    structured JSON analysis that downstream agents can consume.
+    Analyze Dynatrace logs from {log_input_path} for incident {incident_id}.
+    Use triage context to focus on the most relevant services and time window.
+    Identify anomalies, error clusters, and candidate hypotheses.
   expected_output: >
-    A JSON object matching the schema: `incident_id`, `summary`,
-    `anomaly_findings`, `error_patterns`, `affected_services`,
-    `candidate_root_cause_hypotheses`, `raw_log_references` (optional).
+    JSON with incident_id, summary, anomaly_findings, error_patterns, affected_services,
+    candidate_root_cause_hypotheses, raw_log_references.
   agent: log_analysis_agent
+  context:
+    - triage_task
   output_file: output/log_analysis.json
+
+deployment_analysis_task:
+  description: >
+    Investigate recent deployments and code changes for incident {incident_id}.
+    GitHub repository: {repository}
+    Affected service: {affected_service}
+    Use live GitHub data and correlate changes with the incident timeline from triage.
+  expected_output: >
+    JSON with incident_id, repository, recent_deployments, suspicious_commits,
+    deployment_timeline, change_correlation_score, rollback_recommendation,
+    deployment_analysis_summary.
+  agent: deployment_analysis_agent
+  context:
+    - triage_task
+  output_file: output/deployment_analysis.json
+
+infrastructure_analysis_task:
+  description: >
+    Analyze infrastructure health for incident {incident_id} on {affected_service}.
+    Review Dynatrace-style metrics and problem indicators during the incident window.
+    Connect infrastructure stress with triage findings.
+  expected_output: >
+    JSON with incident_id, resource_metrics, anomaly_indicators,
+    affected_infrastructure_components, capacity_issues, infrastructure_analysis_summary.
+  agent: infrastructure_agent
+  context:
+    - triage_task
+  output_file: output/infrastructure_analysis.json
 
 root_cause_analysis_task:
   description: >
-    Consume the structured output produced by the Log Analysis Agent and produce
-    a prioritized root cause analysis with remediation recommendations. Save
-    final artifacts under `output/`.
+    Perform root cause analysis for incident {incident_id} by synthesizing triage,
+    log analysis, deployment analysis, and infrastructure analysis outputs.
+    Determine the primary root cause and supporting evidence.
   expected_output: >
-    JSON or Markdown with: `incident_id`, `root_cause`, `confidence`, `impact`,
-    `remediation_recommendations`, `next_steps`, `affected_components`.
+    JSON with incident_id, primary_root_cause, contributing_factors, evidence_summary,
+    timeline_of_events, five_whys_chain, confidence_level, rca_executive_summary.
   agent: root_cause_analysis_agent
+  context:
+    - triage_task
+    - log_analysis_task
+    - deployment_analysis_task
+    - infrastructure_analysis_task
   output_file: output/root_cause_analysis.json
+
+resolution_task:
+  description: >
+    Create the remediation plan for incident {incident_id} based on root cause analysis.
+    Produce actionable runbook steps and ServiceNow update content.
+  expected_output: >
+    JSON with incident_id, immediate_actions, long_term_fixes, rollback_procedure,
+    servicenow_update_content, verification_checkpoints, prevention_recommendations,
+    resolution_executive_summary.
+  agent: resolution_agent
+  context:
+    - root_cause_analysis_task
+  output_file: output/resolution.json
