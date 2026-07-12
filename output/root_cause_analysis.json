@@ -1,22 +1,23 @@
 ```json
 {
-  "incident_id": "INC-20231001-001",
-  "root_cause": "Recent deployment introduced a bug causing server instability.",
-  "confidence": 0.8,
-  "impact": "75% degradation in User Service and 40% degradation in Authentication Service, affecting user experience and system reliability.",
+  "incident_id": "INC-2023-001",
+  "root_cause": "Unexpected high load due to promotional campaign causing elevated request rates.",
+  "confidence": "High",
+  "impact": "Significant degradation of response times for payment services, leading to a poor user experience and potential loss of transactions.",
   "remediation_recommendations": [
-    "Rollback the recent deployment to restore previous stable version.",
-    "Increase monitoring on API response times and error rates for immediate feedback.",
-    "Conduct a thorough review of deployment changes, focusing on code quality and server configurations."
+    "Increase the resource allocation (CPU and memory) for payment services to handle increased load.",
+    "Implement rate limiting or load balancing to prevent overload during promotional periods.",
+    "Investigate and address potential memory leaks in payment services to stabilize CPU usage."
   ],
   "next_steps": [
-    "Initiate rollback process for the deployment.",
-    "Monitor system performance post-rollback to evaluate improvement.",
-    "Communicate with stakeholders regarding current status and estimated recovery time."
+    "Monitor system performance to verify if proposed resource allocations mitigate the CPU usage.",
+    "Analyze log files for any memory leak patterns and perform code reviews to identify unoptimized code segments.",
+    "Request more granular logging during high load periods to capture anomalies for future review."
   ],
   "affected_components": [
-    "User Service",
-    "Authentication Service"
+    "payment-api",
+    "payment-gateway",
+    "transaction-db"
   ]
 }
 ```
