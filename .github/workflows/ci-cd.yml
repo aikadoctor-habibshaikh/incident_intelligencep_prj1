@@ -85,6 +85,12 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Print ECR values
+        run: |
+          echo "Registry: ${{ steps.login-ecr.outputs.registry }}"
+          echo "Repository: ${{ secrets.AWS_ECR_REPOSITORY }}"
+          echo "Region: ${{ secrets.AWS_REGION }}"
 
       - name: Build and push image to ECR
         env:
