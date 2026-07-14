@@ -12,7 +12,6 @@ COPY pyproject.toml ./
 COPY uv.lock ./
 COPY src ./src
 COPY input ./input
-COPY knowledge ./knowledge
 
 RUN pip install --upgrade pip && pip install .
 
