@@ -2,10 +2,10 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [incident_intelligence_prj_pipeline]
     tags: ['v*']
   pull_request:
-    branches: [main]
+    branches: [incident_intelligence_prj_pipeline]
 
 permissions:
   contents: read
@@ -41,7 +41,7 @@ jobs:
 
   build-and-push:
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/incident_intelligence_prj_pipeline'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -68,7 +68,7 @@ jobs:
 
   deploy-aws:
     needs: build-and-push
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/incident_intelligence_prj_pipeline'
     runs-on: ubuntu-latest
     environment: production
     steps:
