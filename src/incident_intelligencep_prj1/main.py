@@ -103,6 +103,16 @@ def test():
         raise Exception(f"An error occurred while testing the crew: {e}")
 
 
+def is_server_enabled() -> bool:
+    """
+    Returns True when the application should start the API server.
+
+    Environment variable:
+        SERVE=1 | true | yes | on
+    """
+    value = os.getenv("SERVE", "").strip().lower()
+    return value in {"1", "true", "yes", "on"}
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the incident intelligence crew')
     parser.add_argument('--task', choices=['full', 'log_analysis', 'root_cause'], default=os.getenv('TASK_NAME', 'full'))
