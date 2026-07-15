@@ -2,10 +2,10 @@ name: CI/CD
 
 on:
   push:
-    branches: [incident_intelligence_prj_pipeline]
+    branches: [incident_intelligence_prj_pipeline,incident_intelligence_prj_pipeline_s3]
     tags: ['v*']
   pull_request:
-    branches: [incident_intelligence_prj_pipeline]
+    branches: [incident_intelligence_prj_pipeline,incident_intelligence_prj_pipeline_s3]
 
 permissions:
   contents: read

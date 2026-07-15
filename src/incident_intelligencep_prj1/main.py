@@ -7,7 +7,18 @@ import warnings
 from pathlib import Path
 
 from datetime import datetime
+from incident_intelligencep_prj1.config import (
+    INPUT_BUCKET,
+    OUTPUT_BUCKET,
+    INPUT_PREFIX,
+    OUTPUT_PREFIX,
+    LOCAL_INPUT_DIR,
+    LOCAL_OUTPUT_DIR,
+    AWS_REGION,
+)
 
+from incident_intelligencep_prj1.utils.s3_download import S3Downloader
+from incident_intelligencep_prj1.utils.s3_upload import S3Uploader
 from incident_intelligencep_prj1.crew import IncidentIntelligencePrj1
 from incident_intelligencep_prj1.fallback_analysis import analyze_logs_with_fallback, build_root_cause_report
 
@@ -117,4 +128,28 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the incident intelligence crew')
     parser.add_argument('--task', choices=['full', 'log_analysis', 'root_cause'], default=os.getenv('TASK_NAME', 'full'))
     args = parser.parse_args()
+    print("=" * 80)
+    print("Downloading input files from Amazon S3...")
+    print("=" * 80)
+
+    downloader = S3Downloader(AWS_REGION)
+
+    downloader.download_folder(
+        bucket_name=INPUT_BUCKET,
+        prefix=INPUT_PREFIX,
+        local_dir=LOCAL_INPUT_DIR,
+    )
+    
     run(args.task)
+    
+    print("=" * 80)
+    print("Uploading reports to Amazon S3...")
+    print("=" * 80)
+
+    uploader = S3Uploader(AWS_REGION)
+
+    uploader.upload_folder(
+        bucket_name=OUTPUT_BUCKET,
+        prefix=OUTPUT_PREFIX,
+        local_folder=LOCAL_OUTPUT_DIR,
+    )
