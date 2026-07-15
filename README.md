@@ -68,6 +68,7 @@ First, if you haven't already, install uv:
 
 ```bash
 pip install uv
+pip install boto3   
 ```
 
 Next, navigate to your project directory and install the dependencies:
