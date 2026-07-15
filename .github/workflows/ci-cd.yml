@@ -2,10 +2,10 @@ name: CI/CD
 
 on:
   push:
-    branches: [incident_intelligence_prj_pipeline,incident_intelligence_prj_pipeline_s3]
+    branches: [incident_intelligence_prj_pipeline_s3]
     tags: ['v*']
   pull_request:
-    branches: [incident_intelligence_prj_pipeline,incident_intelligence_prj_pipeline_s3]
+    branches: [incident_intelligence_prj_pipeline_s3]
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
- 
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
 
   build-and-push:
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/incident_intelligence_prj_pipeline'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/incident_intelligence_prj_pipeline_s3'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -69,7 +69,7 @@ jobs:
 
   deploy-aws:
     needs: build-and-push
-    if: github.event_name == 'push' && github.ref == 'refs/heads/incident_intelligence_prj_pipeline'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/incident_intelligence_prj_pipeline_s3'
     runs-on: ubuntu-latest
     environment: production
     steps:
