@@ -154,3 +154,4 @@ if __name__ == "__main__":
         prefix=OUTPUT_PREFIX,
         local_folder=LOCAL_OUTPUT_DIR,
     )
+    print("= Application Completed =")
