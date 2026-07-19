@@ -125,6 +125,7 @@ def is_server_enabled() -> bool:
     return value in {"1", "true", "yes", "on"}
 
 if __name__ == "__main__":
+    print("= Application Started =")
     parser = argparse.ArgumentParser(description='Run the incident intelligence crew')
     parser.add_argument('--task', choices=['full', 'log_analysis', 'root_cause'], default=os.getenv('TASK_NAME', 'full'))
     args = parser.parse_args()
