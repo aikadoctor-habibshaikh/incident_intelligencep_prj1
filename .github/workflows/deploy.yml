@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - siddharth_mane_deployment
 
 env:
   AWS_REGION: ap-south-1
