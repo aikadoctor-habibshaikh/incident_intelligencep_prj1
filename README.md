@@ -1,0 +1,25 @@
+﻿# Incident Intelligence Platform
+
+Multi-agent incident resolution system built with CrewAI.
+
+## Agents
+
+- Incident Triage
+- Log Analysis
+- Deployment Analysis
+- Infrastructure
+- Root Cause Analysis
+- Resolution
+
+## Run
+
+```bash
+uv sync
+cp .env.example .env
+ollama pull llama3.1:8b
+uv run run_crew
+```
+
+```bash
+uv run run_crew INC-001 payment-service owner/repo
+```

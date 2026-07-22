@@ -1,0 +1,228 @@
+{
+  "incident_id": "INC-20260627-001",
+  "repository": "aikadoctor-habibshaikh/incident_intelligencep_prj1",
+  "recent_deployments": [
+    {
+      "id": 5511870302,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-19T15:19:27Z",
+      "sha": "767daeb"
+    },
+    {
+      "id": 5510766677,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-19T12:44:58Z",
+      "sha": "a0ef8ba"
+    },
+    {
+      "id": 5465193665,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-15T22:51:25Z",
+      "sha": "d4822f6"
+    },
+    {
+      "id": 5464847959,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-15T22:15:46Z",
+      "sha": "76ab2a2"
+    },
+    {
+      "id": 5441297473,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-14T13:20:09Z",
+      "sha": "630de94"
+    },
+    {
+      "id": 5437036999,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-14T07:39:53Z",
+      "sha": "630de94"
+    },
+    {
+      "id": 5436521166,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-14T06:52:53Z",
+      "sha": "630de94"
+    },
+    {
+      "id": 5436381949,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-14T06:39:55Z",
+      "sha": "630de94"
+    },
+    {
+      "id": 5435967864,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-14T05:55:46Z",
+      "sha": "cda0374"
+    },
+    {
+      "id": 5435798194,
+      "environment": "production",
+      "description": null,
+      "created_at": "2026-07-14T05:36:10Z",
+      "sha": "cda0374"
+    }
+  ],
+  "suspicious_commits": [],
+  "deployment_timeline": {
+    "incident_start_time": "2026-06-27T09:00:00Z",
+    "relevant_deployments": [],
+    "irrelevant_deployments_after_incident": [
+      {
+        "id": 5511870302,
+        "environment": "production",
+        "created_at": "2026-07-19T15:19:27Z",
+        "sha": "767daeb"
+      },
+      {
+        "id": 5510766677,
+        "environment": "production",
+        "created_at": "2026-07-19T12:44:58Z",
+        "sha": "a0ef8ba"
+      },
+      {
+        "id": 5465193665,
+        "environment": "production",
+        "created_at": "2026-07-15T22:51:25Z",
+        "sha": "d4822f6"
+      },
+      {
+        "id": 5464847959,
+        "environment": "production",
+        "created_at": "2026-07-15T22:15:46Z",
+        "sha": "76ab2a2"
+      },
+      {
+        "id": 5441297473,
+        "environment": "production",
+        "created_at": "2026-07-14T13:20:09Z",
+        "sha": "630de94"
+      },
+      {
+        "id": 5437036999,
+        "environment": "production",
+        "created_at": "2026-07-14T07:39:53Z",
+        "sha": "630de94"
+      },
+      {
+        "id": 5436521166,
+        "environment": "production",
+        "created_at": "2026-07-14T06:52:53Z",
+        "sha": "630de94"
+      },
+      {
+        "id": 5436381949,
+        "environment": "production",
+        "created_at": "2026-07-14T06:39:55Z",
+        "sha": "630de94"
+      },
+      {
+        "id": 5435967864,
+        "environment": "production",
+        "created_at": "2026-07-14T05:55:46Z",
+        "sha": "cda0374"
+      },
+      {
+        "id": 5435798194,
+        "environment": "production",
+        "created_at": "2026-07-14T05:36:10Z",
+        "sha": "cda0374"
+      }
+    ],
+    "irrelevant_workflow_runs_after_incident": [
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-07-19T15:16:44Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29692517105"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-07-19T12:42:02Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29687475696"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-07-15T22:48:24Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29456603546"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-07-15T22:12:49Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29454640161"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-07-15T22:05:31Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29454213812"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-07-15T22:01:30Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29453976780"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-07-15T20:58:44Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29450284626"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-07-15T20:57:04Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29450190071"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-07-15T20:51:16Z",
+        "head_branch": "incident_intelligence_prj_pipeline_s3",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29449849834"
+      },
+      {
+        "name": "CI/CD",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-07-14T06:36:44Z",
+        "head_branch": "incident_intelligence_prj_pipeline",
+        "html_url": "https://github.com/aikadoctor-habibshaikh/incident_intelligencep_prj1/actions/runs/29311885595"
+      }
+    ]
+  },
+  "change_correlation_score": 0,
+  "rollback_recommendation": "No rollback recommendation can be made as no deployments or code changes relevant to the incident timeframe (around 2026-06-27T09:00:00Z) were identified using the available tools. All retrieved deployments and workflow runs occurred in July 2026, which is after the incident's first observed error.",
+  "deployment_analysis_summary": "The incident INC-20260627-001 started on 2026-06-27T09:00:00Z. An investigation into recent deployments and code changes for the 'payment-service' in the 'aikadoctor-habibshaikh/incident_intelligencep_prj1' repository was performed. However, the `github_deployments` tool, when queried with a 72-hour lookback, returned data from July 2026. This data is significantly after the incident's initial timeline. No deployments, commits, or merged pull requests were found that occurred before or around the incident's start time. Therefore, no correlation can be established between recent code changes/deployments and the cause of incident INC-20260627-001. The root cause likely lies outside of recent code deployments within the specified repository, or the relevant changes occurred outside the scope of the tool's lookback capability relative to the incident date."
+}

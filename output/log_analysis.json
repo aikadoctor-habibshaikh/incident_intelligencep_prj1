@@ -1,0 +1,183 @@
+{
+  "incident_id": "INC-20260627-001",
+  "summary": "Incident INC-20260627-001 is a P1 critical issue affecting payment processing. The 'payment-service' is experiencing a high error rate, primarily due to recurring 'PAYMENT_TIMEOUT' errors, as observed in logs starting around 09:00Z. This aligns with the initial incident report pointing to 'payment-db-primary' as a likely root cause. Additionally, 'auth-service' is showing frequent 'AUTH_TOKEN_EXPIRED' errors, which could be a contributing factor to payment failures or a related issue. High anomaly events also indicate recurring 'NULL_POINTER' exceptions in 'auth-service' and 'QUEUE_OVERFLOW' in 'search-service', suggesting broader system instability or resource contention that might indirectly impact payment flows.",
+  "anomaly_findings": [
+    {
+      "timestamp": "2026-06-27T09:04:00Z",
+      "logLevel": "WARN",
+      "service": "auth-service",
+      "host": "app-04",
+      "message": "Warning in auth-service: null reference exception in application",
+      "traceId": "trace-001",
+      "errorCode": "NULL_POINTER",
+      "anomalyScore": 0.75,
+      "context": "order=1008,session=sess8,user=user8"
+    },
+    {
+      "timestamp": "2026-06-27T09:04:30Z",
+      "logLevel": "ERROR",
+      "service": "search-service",
+      "host": "app-05",
+      "message": "Queue overflow on messaging system in search-service for trace trace-001",
+      "traceId": "trace-001",
+      "errorCode": "QUEUE_OVERFLOW",
+      "anomalyScore": 0.82,
+      "context": "order=1009,session=sess9,user=user9"
+    },
+    {
+      "timestamp": "2026-06-27T09:09:30Z",
+      "logLevel": "ERROR",
+      "service": "search-service",
+      "host": "app-05",
+      "message": "Queue overflow on messaging system in search-service for trace trace-003",
+      "traceId": "trace-003",
+      "errorCode": "QUEUE_OVERFLOW",
+      "anomalyScore": 0.82,
+      "context": "order=1019,session=sess19,user=user4"
+    },
+    {
+      "timestamp": "2026-06-27T09:14:00Z",
+      "logLevel": "WARN",
+      "service": "auth-service",
+      "host": "app-04",
+      "message": "Warning in auth-service: null reference exception in application",
+      "traceId": "trace-005",
+      "errorCode": "NULL_POINTER",
+      "anomalyScore": 0.75,
+      "context": "order=1028,session=sess8,user=user13"
+    },
+    {
+      "timestamp": "2026-06-27T09:14:30Z",
+      "logLevel": "ERROR",
+      "service": "search-service",
+      "host": "app-05",
+      "message": "Queue overflow on messaging system in search-service for trace trace-005",
+      "traceId": "trace-005",
+      "errorCode": "QUEUE_OVERFLOW",
+      "anomalyScore": 0.82,
+      "context": "order=1029,session=sess9,user=user14"
+    },
+    {
+      "timestamp": "2026-06-27T09:19:30Z",
+      "logLevel": "ERROR",
+      "service": "search-service",
+      "host": "app-05",
+      "message": "Queue overflow on messaging system in search-service for trace trace-007",
+      "traceId": "trace-007",
+      "errorCode": "QUEUE_OVERFLOW",
+      "anomalyScore": 0.82,
+      "context": "order=1039,session=sess19,user=user9"
+    }
+  ],
+  "error_patterns": [
+    {
+      "code": "PAYMENT_TIMEOUT",
+      "count": 5,
+      "services": ["payment-service"],
+      "description": "Recurring payment processing failures, directly linked to the incident."
+    },
+    {
+      "code": "AUTH_TOKEN_EXPIRED",
+      "count": 10,
+      "services": ["auth-service"],
+      "description": "Frequent authentication token expiration, potentially impacting services dependent on authentication."
+    },
+    {
+      "code": "QUEUE_OVERFLOW",
+      "count": 10,
+      "services": ["search-service"],
+      "description": "Repeated queue overflow events, indicating potential bottlenecks or resource issues in the messaging system."
+    },
+    {
+      "code": "NULL_POINTER",
+      "count": 5,
+      "services": ["auth-service"],
+      "description": "Null reference exceptions in the authentication service, often correlated with queue overflows."
+    },
+    {
+      "code": "FILE_NOT_FOUND",
+      "count": 10,
+      "services": ["checkout-service"],
+      "description": "File not found errors in checkout service, potentially a secondary issue or symptom."
+    },
+    {
+      "code": "SERVICE_TIMEOUT",
+      "count": 5,
+      "services": ["search-service"],
+      "description": "Service timeouts in search-service, indicating slow responses or upstream issues."
+    },
+    {
+      "code": "DB_DUPLICATE_KEY",
+      "count": 5,
+      "services": ["inventory-service"],
+      "description": "Duplicate key violations in inventory-service database, suggesting data integrity or concurrency issues."
+    }
+  ],
+  "affected_services": [
+    "payment-service",
+    "auth-service",
+    "search-service",
+    "checkout-service",
+    "inventory-service",
+    "payment-db-primary"
+  ],
+  "candidate_root_cause_hypotheses": [
+    "**Database Performance Issues on 'payment-db-primary'**: The primary hypothesis, strongly supported by recurring 'PAYMENT_TIMEOUT' errors in 'payment-service'. This suggests the database is slow to respond or unavailable, causing payment transactions to time out.",
+    "**Authentication Service Instability**: Frequent 'AUTH_TOKEN_EXPIRED' and 'NULL_POINTER' errors in 'auth-service' indicate issues within the authentication flow. If payment processing relies on valid and timely authentication, these issues could directly contribute to payment failures.",
+    "**Cascading Failures due to Resource Contention/Bottlenecks**: The 'QUEUE_OVERFLOW' and 'SERVICE_TIMEOUT' errors in 'search-service', often correlated with 'auth-service' issues via trace IDs, suggest broader system stress or resource exhaustion. This could indirectly impact 'payment-service' or be a symptom of an underlying infrastructure problem affecting multiple services.",
+    "**Intermittent Network Latency or Connectivity Issues**: Timeouts (both 'PAYMENT_TIMEOUT' and 'SERVICE_TIMEOUT') can be indicative of network problems between services or between services and the database."
+  ],
+  "raw_log_references": [
+    {
+      "timestamp": "2026-06-27T09:00:00Z",
+      "logLevel": "WARN",
+      "service": "payment-service",
+      "host": "app-01",
+      "message": "Warning in payment-service: payment processing failed for order",
+      "traceId": "trace-000",
+      "errorCode": "PAYMENT_TIMEOUT",
+      "anomalyScore": 0.15,
+      "context": "order=1000,session=sess0,user=user0"
+    },
+    {
+      "timestamp": "2026-06-27T09:01:30Z",
+      "logLevel": "ERROR",
+      "service": "auth-service",
+      "host": "app-04",
+      "message": "Authentication token expired in auth-service for trace trace-000",
+      "traceId": "trace-000",
+      "errorCode": "AUTH_TOKEN_EXPIRED",
+      "anomalyScore": 0.38,
+      "context": "order=1003,session=sess3,user=user3"
+    },
+    {
+      "timestamp": "2026-06-27T09:04:00Z",
+      "logLevel": "WARN",
+      "service": "auth-service",
+      "host": "app-04",
+      "message": "Warning in auth-service: null reference exception in application",
+      "traceId": "trace-001",
+      "errorCode": "NULL_POINTER",
+      "anomalyScore": 0.75,
+      "context": "order=1008,session=sess8,user=user8"
+    },
+    {
+      "timestamp": "2026-06-27T09:04:30Z",
+      "logLevel": "ERROR",
+      "service": "search-service",
+      "host": "app-05",
+      "message": "Queue overflow on messaging system in search-service for trace trace-001",
+      "traceId": "trace-001",
+      "errorCode": "QUEUE_OVERFLOW",
+      "anomalyScore": 0.82,
+      "context": "order=1009,session=sess9,user=user9"
+    },
+    {
+      "timestamp": "2026-06-27T09:10:00Z",
+      "logLevel": "WARN",
+      "service": "payment-service",
+      "host": "app-01",
+      "message": "Warning in payment-service: payment processing failed for order",
+      "traceId": "trace-004",
+      "errorCode": "PAYMENT_TIMEOUT",
+      "anomalyScore":

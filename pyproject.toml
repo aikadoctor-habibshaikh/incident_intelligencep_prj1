@@ -1,0 +1,28 @@
+[project]
+name = "incident-intelligencep-prj1"
+version = "0.2.0"
+description = "Enterprise incident intelligence platform powered by CrewAI"
+authors = [{ name = "Habib Shaikh", email = "aikadoctor-habibshaikh@users.noreply.github.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools]>=0.130.0,<1.0.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+incident-intelligencep-prj1 = "incident_intelligencep_prj1.main:run"
+run_crew = "incident_intelligencep_prj1.main:run"
+train = "incident_intelligencep_prj1.main:train"
+replay = "incident_intelligencep_prj1.main:replay"
+test = "incident_intelligencep_prj1.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/incident_intelligencep_prj1"]

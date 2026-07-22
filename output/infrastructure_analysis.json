@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-20260627-001",
+  "resource_metrics": {
+    "payment-service": {
+      "cpu_usage_percent": 91.8,
+      "memory_usage_percent": 86.4,
+      "response_time_ms_p99": 4380,
+      "error_rate_percent": 17.9,
+      "throughput_rpm": 1185,
+      "disk_io_utilization": 76.2,
+      "network_latency_ms": 138,
+      "db_connection_pool_usage": 94.6
+    },
+    "payment-db-primary": {
+      "cpu_usage_percent": 91.8,
+      "memory_usage_percent": 86.4,
+      "response_time_ms_p99": 4380,
+      "error_rate_percent": 17.9,
+      "throughput_rpm": 1185,
+      "disk_io_utilization": 76.2,
+      "network_latency_ms": 138,
+      "db_connection_pool_usage": 94.6
+    }
+  },
+  "anomaly_indicators": [
+    "payment-service: CPU climbed above 90 percent during the incident window",
+    "payment-service: Error rate moved from under 1 percent to nearly 18 percent",
+    "payment-service: Database connection pool usage stayed above 94 percent",
+    "payment-db-primary: CPU climbed above 90 percent during the incident window",
+    "payment-db-primary: Error rate moved from under 1 percent to nearly 18 percent",
+    "payment-db-primary: Database connection pool usage stayed above 94 percent",
+    "Dynatrace problem 'High error rate on payment-service' opened with AVAILABILITY severity, identifying 'payment-db-primary' as the likely root cause."
+  ],
+  "affected_infrastructure_components": [
+    "payment-service",
+    "payment-db-primary"
+  ],
+  "capacity_issues": [
+    "payment-service: High CPU usage (91.8%) indicating resource exhaustion.",
+    "payment-service: High memory usage (86.4%) contributing to resource pressure.",
+    "payment-service: Critical database connection pool usage (94.6%) suggesting saturation and inability to acquire database connections.",
+    "payment-db-primary: High CPU usage (91.8%) indicating the database is under significant load and potentially struggling to process queries.",
+    "payment-db-primary: High memory usage (86.4%) potentially leading to swapping or slow operations.",
+    "payment-db-primary: High disk I/O utilization (76.2%) suggesting I/O bottlenecks, possibly from slow queries or high transaction volume."
+  ],
+  "infrastructure_analysis_summary": "During incident INC-20260627-001, both 'payment-service' and 'payment-db-primary' exhibited critical infrastructure stress. 'payment-service' experienced a significant increase in error rate (17.9%) and p99 response time (4380ms), directly correlating with high CPU (91.8%) and memory (86.4%) utilization. Crucially, its database connection pool usage remained above 94%, indicating a severe bottleneck in connecting to the database. Concurrently, 'payment-db-primary', identified as the root cause by Dynatrace, showed identical critical metrics: CPU over 90%, memory over 86%, and high disk I/O utilization (76.2%). This points to 'payment-db-primary' being overwhelmed, leading to connection pool exhaustion on 'payment-service' and subsequently, the observed high error rates and timeouts. The incident is primarily driven by severe capacity issues on the 'payment-db-primary', which is directly impacting the 'payment-service's ability to process payments."
+}

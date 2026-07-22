@@ -1,0 +1,41 @@
+{
+    "family": "incident-intelligence",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "executionRoleArn": "arn:aws:iam::306656769833:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "incident-intelligence",
+            "image": "306656769833.dkr.ecr.ap-south-1.amazonaws.com/incident-intelligence:latest",
+            "essential": true,
+            "secrets": [
+                {
+                    "name": "GEMINI_API_KEY",
+                    "valueFrom": "arn:aws:secretsmanager:ap-south-1:306656769833:secret:incident-intelligence/gemini-api-key"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "USE_MOCK_INTEGRATIONS",
+                    "value": "true"
+                },
+                {
+                    "name": "MODEL",
+                    "value": "gemini/gemini-2.5-flash"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/incident-intelligence",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ]
+}

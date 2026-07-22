@@ -1,0 +1,31 @@
+{
+  "incident_id": "INC-20260627-001",
+  "severity": "P1",
+  "incident_title": "Critical: Payment service experiencing high error rate due to database issues",
+  "affected_services": [
+    "payment-service",
+    "payment-db-primary"
+  ],
+  "blast_radius": "All users attempting to make payments are affected. Any service dependent on 'payment-db-primary' is also potentially impacted.",
+  "initial_timeline": [
+    {
+      "timestamp": "2026-06-27T09:00:00Z",
+      "event": "First observed PAYMENT_TIMEOUT error in payment-service logs."
+    },
+    {
+      "timestamp": "2026-06-27T09:00:00Z - 2026-06-27T09:47:30Z",
+      "event": "Recurring PAYMENT_TIMEOUT errors observed in payment-service logs, indicating an ongoing issue."
+    },
+    {
+      "timestamp": "2026-07-22T13:33:43Z",
+      "event": "Dynatrace problem 'High error rate on payment-service' opened with AVAILABILITY severity, identifying 'payment-db-primary' as the likely root cause."
+    }
+  ],
+  "recommended_analysis_areas": [
+    "Investigate 'payment-db-primary' performance, resource utilization (CPU, memory, disk I/O), and connection health.",
+    "Analyze 'payment-service' logs for other error patterns, specifically 'AUTH_TOKEN_EXPIRED' events as mentioned in the incident context, and correlate with 'PAYMENT_TIMEOUT' issues.",
+    "Examine database query performance and identify any slow or blocked queries on 'payment-db-primary'.",
+    "Review recent deployments or configuration changes to 'payment-service' or 'payment-db-primary' that might have introduced the issue."
+  ],
+  "triage_summary": "Incident INC-20260627-001 is classified as P1 due to critical impact on payment processing. Dynatrace logs show recurring 'PAYMENT_TIMEOUT' errors in 'payment-service' starting around 09:00Z. An open Dynatrace problem confirms a 'High error rate' with 'AVAILABILITY' severity, pointing to 'payment-db-primary' as the root cause. This indicates a severe disruption to payment functionality, affecting all users. Immediate investigation into the database performance and service logs is required."
+}
